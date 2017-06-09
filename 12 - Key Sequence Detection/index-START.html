@@ -7,6 +7,16 @@
 </head>
 <body>
 <script>
+
+const pressed = [];
+const code = "mark";
+
+window.addEventListener('keyup', (e) => {
+  console.log(e.key);
+  pressed.push(e.key);
+  pressed.splice(-code.length -1, pressed.length - code.length);
+  console.log(pressed);
+});
 </script>
 </body>
 </html>
