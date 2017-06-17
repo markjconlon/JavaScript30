@@ -140,8 +140,6 @@
     opacity: 1;
   }
 
-
-
   .dropdownBackground {
     width:100px;
     height:100px;
@@ -214,6 +212,40 @@
 </style>
 
 <script>
+  const menus = document.querySelectorAll('.cool > li');
+  const background  = document.querySelector('.dropdownBackground');
+  const nav  = document.querySelector('.top');
+
+  function handleEnter() {
+    this.classList.add('trigger-enter');
+    // normally when you enter a new function this is changed to the window (unless you use an arrow function)
+    // in the arrow function the context of "this" is inherited from the parent
+    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 50);
+    background.classList.add('open');
+
+    const dropdown = this.querySelector('.dropdown');
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect();
+
+    const coords = {
+      height: dropdownCoords.height,
+      width: dropdownCoords.width,
+      top: dropdownCoords.top - navCoords.top,
+      left:dropdownCoords.left - navCoords.left,
+    };
+
+    background.style.setProperty('width', `${coords.width}px`);
+    background.style.setProperty('height', `${coords.height}px`);
+    background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
+  }
+
+  function handleLeave(){
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    background.classList.remove('open');
+  }
+
+  menus.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
+  menus.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
 </script>
 
 </body>
